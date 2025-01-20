@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { vocabularies } from './data/vocabularies'
 import './App.css'
 
@@ -75,6 +75,11 @@ function App() {
     }
   }
 
+  const timeElapsed = useMemo(() => {
+    if (!startTime) return 0
+    return Math.round((Date.now() - startTime) / 1000 / 60 * 100) / 100 // in minutes, rounded to 2 decimal places
+  }, [startTime])
+
   const currentWord = words[currentWordIndex]
   
   const renderWord = () => {
@@ -100,6 +105,13 @@ function App() {
           <option value="it">IT</option>
           <option value="web">Web Development</option>
           <option value="programming">Programming</option>
+          <option value="english">English</option>
+          <option value="deutsch">Deutsch</option>
+          <option value="music">Music</option>
+          <option value="sports">Sports</option>
+          <option value="art">Art</option>
+          <option value="science">Science</option>
+          <option value="business">Business</option>
         </select>
         <button onClick={initializeGame}>
           New Test
@@ -118,6 +130,10 @@ function App() {
         <div className="stat-item">
           <span className="stat-label">Remaining</span>
           <span className="stat-value">{words.length - currentWordIndex}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Timer</span>
+          <span className="stat-value">{timeElapsed}</span>
         </div>
       </div>
 
